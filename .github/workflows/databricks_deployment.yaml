@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: databricks/setup-cli@main
-      - run: databricks jobs run-now <job-id>
+      - run: databricks jobs run-now 76659444350821
         env:
           DATABRICKS_HOST: https://adb-6102124407836814.14.azuredatabricks.net
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}

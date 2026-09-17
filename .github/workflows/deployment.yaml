@@ -1,0 +1,17 @@
+name: deploy-test
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: posit-dev/connect-actions/deploy@main
+        with:
+          connect-server: https://datanalytics-int.worldbank.org
+          content-guid: 8aa2d6d0-7aaf-4010-98b7-e9839f7edf69
+          path: shiny-penguins

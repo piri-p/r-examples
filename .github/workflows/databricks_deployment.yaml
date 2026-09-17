@@ -5,10 +5,16 @@ on: workflow_dispatch
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: https://adb-6102124407836814.14.azuredatabricks.net
+      DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+      DATABRICKS_AUTH_TYPE: oauth-m2m
     steps:
+      - name: Test credentials
+        run: |
+          curl -s -X POST "$DATABRICKS_HOST/oidc/v1/token" \
+            -u "$DATABRICKS_CLIENT_ID:$DATABRICKS_CLIENT_SECRET" \
+            -d "grant_type=client_credentials&scope=all-apis" | head -c 80
       - uses: databricks/setup-cli@main
       - run: databricks jobs run-now 76659444350821
-        env:
-          DATABRICKS_HOST: https://adb-6102124407836814.14.azuredatabricks.net
-          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}

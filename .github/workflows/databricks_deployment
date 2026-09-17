@@ -1,0 +1,14 @@
+name: deploy-via-databricks
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: databricks/setup-cli@main
+      - run: databricks jobs run-now <job-id>
+        env:
+          DATABRICKS_HOST: https://adb-6102124407836814.14.azuredatabricks.net
+          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
